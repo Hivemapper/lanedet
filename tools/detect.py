@@ -60,7 +60,8 @@ class Detect(object):
         if json_out:
             with open(json_out, 'w') as file:
                 json.dump(convert_ndarray_to_list(lanes), file)
-        imshow_lanes(data['ori_img'], lanes, show=self.cfg.show, out_file=out_file)
+        # Only store the lane coordinates. Uncomment only for debugging purposes
+        # imshow_lanes(data['ori_img'], lanes, show=self.cfg.show, out_file=out_file)
 
     def run(self, data):
         data = self.preprocess(data)
