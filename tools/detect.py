@@ -12,6 +12,18 @@ from lanedet.utils.visualization import imshow_lanes
 from lanedet.utils.net_utils import load_network
 from pathlib import Path
 from tqdm import tqdm
+import json
+
+# Define a recursive function to convert NumPy arrays to lists
+def convert_ndarray_to_list(obj):
+    if isinstance(obj, np.ndarray):
+        return obj.tolist()
+    elif isinstance(obj, list):
+        return [convert_ndarray_to_list(item) for item in obj]
+    elif isinstance(obj, dict):
+        return {key: convert_ndarray_to_list(value) for key, value in obj.items()}
+    else:
+        return obj
 
 class Detect(object):
     def __init__(self, cfg):
@@ -43,6 +55,11 @@ class Detect(object):
         if out_file:
             out_file = osp.join(out_file, osp.basename(data['img_path']))
         lanes = [lane.to_array(self.cfg) for lane in data['lanes']]
+        json_out = out_file.replace('.jpg', '.json')
+        os.makedirs(os.path.dirname(json_out), exist_ok=True)
+        if json_out:
+            with open(json_out, 'w') as file:
+                json.dump(convert_ndarray_to_list(lanes), file)
         imshow_lanes(data['ori_img'], lanes, show=self.cfg.show, out_file=out_file)
 
     def run(self, data):
