@@ -12,11 +12,11 @@ featuremap_out_channel = 1280
 featuremap_out_stride = 32 
 
 num_points = 72
-max_lanes = 4
-sample_y = range(589, 230, -1)
+max_lanes = 6
+sample_y = range(1000, 100, -1)
 
 heads = dict(type='LaneATT',
-        anchors_freq_path='.cache/culane_anchors_freq.pt',
+        anchors_freq_path='/code/lanedet/.cache/culane_anchors_freq.pt',
         topk_anchors=1000)
 
 train_parameters = dict(
@@ -50,8 +50,8 @@ img_norm = dict(
     mean=[103.939, 116.779, 123.68],
     std=[1., 1., 1.]
 )
-ori_img_w=1640
-ori_img_h=590
+ori_img_w=2028
+ori_img_h=1024
 img_w=640 
 img_h=360
 cut_height=0
